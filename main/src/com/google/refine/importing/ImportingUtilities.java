@@ -959,7 +959,7 @@ public class ImportingUtilities {
             job,
             job.getSelectedFileRecords(),
             format,
-            100,
+            500,
             optionObj,
             exceptions
         );
