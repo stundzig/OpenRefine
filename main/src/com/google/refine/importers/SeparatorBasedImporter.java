@@ -76,7 +76,7 @@ public class SeparatorBasedImporter extends TabularImportingParserBase {
         
         JSONUtilities.safePut(options, "guessCellValueTypes", false);
         JSONUtilities.safePut(options, "processQuotes", true);
-        JSONUtilities.safePut(options, "quoteCharacter", CSVParser.DEFAULT_QUOTE_CHARACTER);
+        JSONUtilities.safePut(options, "quoteCharacter", String.valueOf(CSVParser.DEFAULT_QUOTE_CHARACTER));
 
         return options;
     }
@@ -250,9 +250,9 @@ public class SeparatorBasedImporter extends TabularImportingParserBase {
                     });
                     
                     Separator separator = separators.get(0);
-                    //if (separator.stddev / separator.averagePerLine < 0.1) {
+                    if (separator.stddev / separator.averagePerLine < 0.1) {
                         return separator;
-                    //}
+                    }
                    
                 }
             } finally {
