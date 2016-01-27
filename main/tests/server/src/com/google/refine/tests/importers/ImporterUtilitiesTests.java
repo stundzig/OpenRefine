@@ -40,6 +40,7 @@ import static org.mockito.Mockito.when;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 import java.util.Properties;
 
 import org.slf4j.LoggerFactory;
@@ -61,13 +62,20 @@ public class ImporterUtilitiesTests extends RefineTest {
         logger = LoggerFactory.getLogger(this.getClass());
     }
 
-    @Test(enabled=false)
+    @Test
     public void parseCellValueWithText(){
         String END_QUOTES_SHOULD_BE_RETAINED = "\"To be\" is almost always followed by \"or not to be\"";
         String response = (String) ImporterUtilities.parseCellValue(END_QUOTES_SHOULD_BE_RETAINED);
         Assert.assertEquals(response, END_QUOTES_SHOULD_BE_RETAINED);
     }
-
+    
+    @Test
+    public void parseCellValueWithDouble(){
+        String END_QUOTES_SHOULD_BE_RETAINED = "1.234,56";
+        Double response = (Double) ImporterUtilities.parseCellValue(END_QUOTES_SHOULD_BE_RETAINED, Locale.GERMAN);
+        Assert.assertEquals(response, 1234.56d);
+    }
+    
     @Test
     public void getIntegerOption(){
         Properties options = mock(Properties.class);

@@ -243,7 +243,7 @@ public class FileProjectManager extends ProjectManager {
                 if (!saveToFile(tempFile)) {
                     // If the save wasn't really needed, just keep what we had
                     tempFile.delete();
-                    logger.info("Skipping unnecessary workspace save");
+                    logger.debug("Skipping unnecessary workspace save");
                     return;
                 }
             } catch (Exception e) {

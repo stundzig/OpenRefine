@@ -38,8 +38,12 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
 import java.io.Serializable;
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
+import java.text.ParseException;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.Properties;
 
@@ -56,21 +60,26 @@ import com.google.refine.util.TrackingInputStream;
 public class ImporterUtilities {
 
     static public Serializable parseCellValue(String text) {
+        return parseCellValue(text, null);
+    }
+
+    static public Serializable parseCellValue(String text, Locale locale) {
         if (text.length() > 0) {
             String text2 = text.trim();
             if (text2.length() > 0) {
                 try {
-                    return Long.parseLong(text2);
-                } catch (NumberFormatException e) {
+                    NumberFormat formatter = locale != null ? DecimalFormat.getInstance(locale) : DecimalFormat.getInstance();
+                    return formatter.parse(text2);
+                } catch (ParseException e) {
                 }
-    
-                try {
-                    double d = Double.parseDouble(text2);
-                    if (!Double.isInfinite(d) && !Double.isNaN(d)) {
-                        return d;
-                    }
-                } catch (NumberFormatException e) {
-                }
+//    
+//                try {
+//                    double d = Double.parseDouble(text2);
+//                    if (!Double.isInfinite(d) && !Double.isNaN(d)) {
+//                        return d;
+//                    }
+//                } catch (NumberFormatException e) {
+//                }
             }
         }
         return text;

@@ -37,7 +37,9 @@ import java.io.IOException;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
+import org.apache.commons.lang.StringUtils;
 import org.json.JSONObject;
 
 import com.google.refine.ProjectMetadata;
@@ -104,6 +106,8 @@ abstract public class TabularImportingParserBase extends ImportingParserBase {
         boolean storeBlankRows = JSONUtilities.getBoolean(options, "storeBlankRows", true);
         boolean storeBlankCellsAsNulls = JSONUtilities.getBoolean(options, "storeBlankCellsAsNulls", true);
         boolean includeFileSources = JSONUtilities.getBoolean(options, "includeFileSources", false);
+        String numberLocaleString = JSONUtilities.getString(options, "numberLocale", null);
+        Locale numberLocale = !StringUtils.isBlank(numberLocaleString) ? Locale.forLanguageTag(numberLocaleString) : null;
 
         int filenameColumnIndex = -1;
         if (includeFileSources) {
@@ -167,7 +171,7 @@ abstract public class TabularImportingParserBase extends ImportingParserBase {
                                 Serializable storedValue;
                                 if (value instanceof String) {
                                     storedValue = guessCellValueTypes ?
-                                        ImporterUtilities.parseCellValue((String) value) : (String) value;
+                                        ImporterUtilities.parseCellValue((String) value, numberLocale) : (String) value;
                                 } else {
                                     storedValue = ExpressionUtils.wrapStorable(value);
                                 }
